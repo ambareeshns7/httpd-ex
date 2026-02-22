@@ -33,16 +33,24 @@ pipeline {
                // sh "docker push ${IMAGE_NAME}:latest"
             }
         }
-        stage('ECR Login & Pull') {
+        stage('Deploy to EKS') {
             steps {
                 // Uses the EC2 IAM Role automatically
                 sh "aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${REGISTRY_URL}"
                 sh "docker pull ${IMAGE_NAME}:${env.BUILD_NUMBER}"
-                sh "docker run -d -p 80:80 ${IMAGE_NAME}:${env.BUILD_NUMBER}"
-                sh "docker images"
-                sh "docker ps"
+                sh " kubectl apply -f deployment.yml"              
             }
         }
+      //  stage('ECR Login & Pull') {
+      //      steps {
+                // Uses the EC2 IAM Role automatically
+      //          sh "aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${REGISTRY_URL}"
+      //          sh "docker pull ${IMAGE_NAME}:${env.BUILD_NUMBER}"
+      //          sh "docker run -d -p 80:80 ${IMAGE_NAME}:${env.BUILD_NUMBER}"
+      //          sh "docker images"
+      //          sh "docker ps"
+      //      }
+      //  }
     }
 
     post {
