@@ -29,7 +29,7 @@ pipeline {
                 // Uses the EC2 IAM Role automatically
                 sh "aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${REGISTRY_URL}"
                 sh "docker push ${IMAGE_NAME}:${env.BUILD_NUMBER}"
-                sh "docker push ${IMAGE_NAME}:latest"
+               // sh "docker push ${IMAGE_NAME}:latest"
             }
         }
     }
