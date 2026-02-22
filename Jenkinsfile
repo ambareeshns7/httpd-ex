@@ -38,7 +38,10 @@ pipeline {
                 // Uses the EC2 IAM Role automatically
                 sh "aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${REGISTRY_URL}"
                 sh "docker pull ${IMAGE_NAME}:${env.BUILD_NUMBER}"
-                sh " kubectl apply -f deployment.yml"              
+                sh "kubectl apply -f deployment.yml -n namma-ns" 
+                sh "kubectl get pod -n namma-ns"
+                sh "kubectl get svc -n namma-ns"
+                sh "kubectl port-forward svc/namma-app-service 8082:80 -n namma-ns"
             }
         }
       //  stage('ECR Login & Pull') {
