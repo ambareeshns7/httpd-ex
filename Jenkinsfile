@@ -39,7 +39,7 @@ pipeline {
                 sh "kubectl apply -f deployment.yml -n namma-ns" 
                 sh "kubectl get pod -n namma-ns"
                 sh "kubectl get svc -n namma-ns"
-                sh "kubectl port-forward svc/namma-app-service 8082:80 -n namma-ns"
+                sh "kubectl port-forward svc/namma-app-service 8082:80 -n namma-ns --validate=false"
             }
         }
       //  stage('ECR Login & Pull') {
