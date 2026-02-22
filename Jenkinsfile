@@ -19,7 +19,8 @@ pipeline {
         stage('Docker Build') {
             steps {
                 // We use 'sh' instead of 'docker.build' to avoid plugin errors
-                sh "docker build -t ${IMAGE_NAME}:${env.BUILD_NUMBER} ."
+               // sh "docker build -t ${IMAGE_NAME}:${env.BUILD_NUMBER} ."
+                sh "docker build --provenance=false -t ${IMAGE_NAME}:${env.BUILD_NUMBER} ."
                 sh "docker tag ${IMAGE_NAME}:${env.BUILD_NUMBER} ${IMAGE_NAME}:latest"
             }
         }
