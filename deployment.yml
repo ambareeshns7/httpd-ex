@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: namma-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: namma-app
+  template:
+    metadata:
+      labels:
+        app: namma-app
+    spec:
+      nodeSelector:
+         eks.amazonaws.com/nodegroup: ennond-node
+      containers:
+        - name: namma-app
+          image: 328911923780.dkr.ecr.us-east-1.amazonaws.com/jenkins:9
+          ports:
+            - containerPort: 80 
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: namma-app-service
+spec:
+  type: ClusterIP
+  selector:
+    app: namma-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
